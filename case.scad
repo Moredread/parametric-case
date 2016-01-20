@@ -1,4 +1,4 @@
-mode = 0;
+mode = 1; // 0 = Bottom, 1 = Top
 
 external_width = 5.0;
 external_length = 2.0;

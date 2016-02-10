@@ -1,11 +1,11 @@
-mode = 1; // 0 = Bottom, 1 = Top
+mode = 0; // 0 = Bottom, 1 = Top
 
 external_width = 5.0;
-external_length = 2.0;
+external_length = 4.0;
 external_height = 1.0;
 shell_thickness = 0.2;
 holes_exterior_diameter = .75;
-holes_interior_diameter = 0.5;
+holes_interior_diameter = 0.35;
 $fn = 128;
 
 module screw_hole(pos, height, inner_diameter, outer_diameter, center=false) {

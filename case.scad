@@ -17,7 +17,7 @@ module screw_hole(pos, height, inner_diameter, outer_diameter, center=false) {
     };
 };
 
-module screwholes(body_size, inner_diameter, outer_diameter, center=false) {
+module screw_holes(body_size, inner_diameter, outer_diameter, center=false) {
     width = body_size[0];
     length = body_size[1];
     height = body_size[2];
@@ -40,9 +40,9 @@ module case_base_shape(body_size, shell_thickness, holes_interior_diameter, hole
                     case_inner_difference(body_size, shell_thickness, holes_exterior_diameter/2);
                 };
             }; 
-            screwholes([width,length,height*2+1], 0, holes_exterior_diameter, center=true);
+            screw_holes([width,length,height*2+1], 0, holes_exterior_diameter, center=true);
         };
-        screwholes([width,length,height], holes_interior_diameter, holes_exterior_diameter);
+        screw_holes([width,length,height], holes_interior_diameter, holes_exterior_diameter);
     };
 };
 

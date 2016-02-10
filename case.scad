@@ -20,11 +20,12 @@ module screw_hole(pos, height, inner_diameter, outer_diameter, center=false) {
 module screwholes(body_size, inner_diameter, outer_diameter, center=false) {
     width = body_size[0];
     length = body_size[1];
-    height = body_size[2];    
-    screw_hole([0,0,0], height, inner_diameter, outer_diameter, center=center);
-    screw_hole([width,0,0], height, inner_diameter, outer_diameter, center=center);
-    screw_hole([0,length,0], height, inner_diameter, outer_diameter, center=center);
-    screw_hole([width,length,0], height, inner_diameter, outer_diameter, center=center);    
+    height = body_size[2];
+    offset = outer_diameter/2;
+    screw_hole([offset,offset,0], height, inner_diameter, outer_diameter, center=center);
+    screw_hole([width-offset,offset,0], height, inner_diameter, outer_diameter, center=center);
+    screw_hole([offset,length-offset,0], height, inner_diameter, outer_diameter, center=center);
+    screw_hole([width-offset,length-offset,0], height, inner_diameter, outer_diameter, center=center);    
 };
 
 module case_base_shape(body_size, shell_thickness, holes_interior_diameter, holes_exterior_diameter, hollow=true) {

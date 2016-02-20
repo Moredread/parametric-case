@@ -3,13 +3,15 @@ arduino_type = 1; // 0 = Uno, 1 = Tiny
 
 external_width = 90;
 external_length = 70;
-external_height = 30;
+external_height = 70;
 shell_thickness = 3.2;
 holes_exterior_diameter = 10;
 holes_interior_diameter = 3.5;
 led_width = 51;
 led_length = 19.3;
 led_distance = 10;
+arduino_tiny_screw_stub_height = 3;
+arduino_tiny_screw_stub_inner_diameter = 1/2;
 $fn = 64;
 
 module screw_hole(pos, height, inner_diameter, outer_diameter, center=false) {
@@ -86,7 +88,7 @@ module case(width=external_width, length=external_length, height=external_height
         arduino_uno_stubs(shell_thickness);
     }
     if(arduino_type == 1) {
-        translate([shell_thickness+1.5, 15])
+        translate([shell_thickness+1.5, external_length/2 - 15/2])
         arduino_tiny_stubs(shell_thickness);
     }    
 };
@@ -105,8 +107,8 @@ module arduino_tiny_stubs(shell_thickness) {
 
 module arduino_tiny_screw_stub(shell_thickness) {
     base_r = 3/2;
-    plus_r = 1/2;
-    base_h = 3;
+    plus_r = arduino_tiny_screw_stub_inner_diameter/2;
+    base_h = arduino_tiny_screw_stub_height;
     
     screw_stub(shell_thickness, base_r, plus_r, base_h);
 };
@@ -114,7 +116,7 @@ module arduino_tiny_screw_stub(shell_thickness) {
 module arduino_tiny_stub(shell_thickness) {
     base_r = 3/2;
     plus_r = 1.5/2;
-    base_h = 3;
+    base_h = arduino_tiny_screw_stub_height;
     plus_h = 2;
     
     stub(shell_thickness, base_r, plus_r, base_h, plus_h);
@@ -208,9 +210,24 @@ module case_cover(width=external_width, length=external_length, height=external_
     led_stubs(shell_thickness);
 };
 
+module arduino_tiny_hole() {
+    translate([-1.5*shell_thickness,
+               -(8 - 7)/2 + 4,
+               1.7 + arduino_tiny_screw_stub_height + shell_thickness])
+    cube([shell_thickness*3, 8, 4.5]);
+};
+
 module main() {
     if(mode == 0) {
-        case();
+        if(arduino_type == 0) {
+            case();
+        } else {
+            difference() {
+                case();
+                translate([shell_thickness, external_length/2 - 15/2, 0])
+                arduino_tiny_hole();
+            }
+        }
     } else {
         case_cover();
     };

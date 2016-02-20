@@ -1,14 +1,15 @@
-mode = 0; // 0 = Bottom, 1 = Top
+mode = 1; // 0 = Bottom, 1 = Top
 arduino_type = 1; // 0 = Uno, 1 = Tiny
 
-external_width = 10.0;
-external_length = 8.0;
+external_width = 9.0;
+external_length = 7.0;
 external_height = 3.0;
 shell_thickness = 0.2;
-holes_exterior_diameter = 0.75;
+holes_exterior_diameter = 1;
 holes_interior_diameter = 0.35;
 led_width = 5.1;
-led_length = 1.92;
+led_length = 1.93;
+led_distance = 1.0;
 $fn = 64;
 
 module screw_hole(pos, height, inner_diameter, outer_diameter, center=false) {
@@ -172,21 +173,23 @@ module led_hole(size) {
 }
 
 module led_stubs(shell_thickness) {
-    d = 0.15;
-    translate([-d, -d])
+    d = 0.2;
+    offset_x = 0.22+d/2;
+    offset_y = 0.15;
+    translate([offset_x, -d])
     led_screw_stub(shell_thickness);
-    translate([led_width + d, -d])
+    translate([led_width - offset_x, -d])
     led_screw_stub(shell_thickness);
-    translate([-d, led_length + d])
+    translate([offset_x, led_length + d])
     led_screw_stub(shell_thickness);
-    translate([led_width + d, led_length + d])
+    translate([led_width - offset_x, led_length + d])
     led_screw_stub(shell_thickness);
 };
 
 module led_screw_stub(shell_thickness) {
-    base_r = 0.35/2;
+    base_r = 0.28/2;
     plus_r = 0.15/2;
-    base_h = 0.94-shell_thickness;
+    base_h = 0.8-0.1-shell_thickness;
     
     screw_stub(shell_thickness, base_r, plus_r, base_h);
 };
@@ -194,14 +197,14 @@ module led_screw_stub(shell_thickness) {
 module case_cover(width=external_width, length=external_length, height=external_height, shell_thickness=shell_thickness, holes_exterior_diameter=holes_exterior_diameter, holes_interior_diameter=holes_interior_diameter) {
     difference() {
         case_base_shape([width, length, shell_thickness], shell_thickness,holes_interior_diameter, holes_exterior_diameter, false);
-        translate([external_width / 2 - led_width / 2, external_length / 2 + led_length / 2, ])
+        translate([external_width / 2 - led_width / 2, external_length / 2 - led_length - led_distance/2, ])
         led_hole([led_width, led_length, shell_thickness]);
-        translate([external_width / 2 - led_width / 2, external_length / 2 - led_length * 3 / 2, ])
+        translate([external_width / 2 - led_width / 2, external_length / 2 + led_distance/2, ])
         led_hole([led_width, led_length, shell_thickness]);        
     };
-    translate([external_width / 2 - led_width / 2, external_length / 2 + led_length / 2, ])
-    led_stubs(shell_thickness);
-        translate([external_width / 2 - led_width / 2, external_length / 2 - led_length * 3 / 2, ])
+    translate([external_width / 2 - led_width / 2, external_length / 2 - led_length - led_distance/2, ])
+    led_stubs(shell_thickness);    
+    translate([external_width / 2 - led_width / 2, external_length / 2 + led_distance/2, ])
     led_stubs(shell_thickness);
 };
 

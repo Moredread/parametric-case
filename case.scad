@@ -4,7 +4,7 @@ arduino_type = 1; // 0 = Uno, 1 = Tiny
 external_width = 90;
 external_length = 70;
 external_height = 30;
-shell_thickness = 2;
+shell_thickness = 3.2;
 holes_exterior_diameter = 10;
 holes_interior_diameter = 3.5;
 led_width = 51;
@@ -93,9 +93,9 @@ module case(width=external_width, length=external_length, height=external_height
 
 module arduino_tiny_stubs(shell_thickness) {
     translate([0.00, 0])
-    arduino_tiny_stub(shell_thickness);
+    arduino_tiny_screw_stub(shell_thickness);
     translate([40.00, 15])
-    arduino_tiny_stub(shell_thickness);
+    arduino_tiny_screw_stub(shell_thickness);
     translate([0.00, 15])
     arduino_tiny_screw_stub(shell_thickness);
     translate([40.00, 0])
